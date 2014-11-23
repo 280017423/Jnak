@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">金诺安康</string>
+    <string name="sso_url">http://218.24.45.57:6377/ServiceUUCA.svc</string>
+    <string name="sso_namespace">http://tempuri.org/</string>
+    <string name="sso_methodname">LoginIn</string>
+    <string name="sso_action">http://tempuri.org/IServiceUUCA/LoginIn</string>
+    <string name="login_message_success">认证成功</string>
+    <string name="login_message_failed">认证失败：用户名或密码错误。</string>
+    <string name="login_message_title">提示</string>
+    <string name="login_button_text">确定</string>
+    <string name="url_pageserver">http://10.52.232.137:8084/</string>
+    <string name="url_default">http://jnakdl.idc.1001n.net/mobile/index.aspx</string>
+    <string name="url_aboutus">http://jnakdl.idc.1001n.net/mobile/content/about.aspx</string>
+    <string name="url_mfeedback">http://jnakdl.idc.1001n.net/mobile/mfeedback.aspx</string>
+    <string name="url_shop">http://jnakdl.idc.1001n.net/mobile/goods.aspx</string>
+    <string name="update_url">http://jnakdl.idc.1001n.net/apk/</string>
+    <string name="update_app">jnak.apk</string>
+    <string name="update_verurl">http://jnakdl.idc.1001n.net/apk/verjson.htm</string>
+    <string name="action_settings">设置</string>
+    <string name="title_activity_main">金诺安康</string>
+    <string name="title_activity_view_web_view">金诺安康</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_view_page">团队</string>
+    <string name="title_activity_main_tab">金诺安康</string>
+    <string name="title_activity_news_list">团队</string>
+    <string name="title_activity_video_list">服务</string>
+    <string name="title_activity_customer_list">客户列表</string>
+    <string name="title_activity_wo">WoActivity</string>
+    <string name="title_activity_customer_manager">客户管理</string>
+    <string name="title_activity_view_video">服务</string>
+    <string name="title_activity_main_activity2">金诺安康</string>
+    <string name="title_activity_product">金诺安康</string>
+    <string name="title_activity_industry">IndustryActivity</string>
+
+</resources>

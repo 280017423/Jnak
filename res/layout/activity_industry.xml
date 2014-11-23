@@ -1,0 +1,248 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_title" >
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/realtabcontent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/rl_gallery_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <qianye.jnak.widget.AutoScrollViewPager
+                android:id="@+id/vp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:fadingEdge="none"
+                android:spacing="0dp" />
+
+            <qianye.jnak.widget.CircleFlowIndicator
+                android:id="@+id/cfi_indicator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                app:point_normal_drawable="@drawable/flow_indicator_normal"
+                app:point_radius="5dp"
+                app:point_seleted_drawable="@drawable/flow_indicator_selected"
+                app:point_size="5dp"
+                app:space="12dp" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="#fff" >
+
+            <TableLayout
+                android:id="@+id/tableLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:dividerPadding="20dp"
+                android:stretchColumns="*" >
+
+                <TableRow
+                    android:layout_width="0.0dp"
+                    android:layout_height="wrap_content"
+                    android:background="#fff" >
+
+                    <ImageView
+                        android:id="@+id/btn_ico_1"
+                        android:layout_margin="15dp"
+                        android:background="#fff"
+                        android:onClick="onBtnClick"
+                        android:src="@drawable/index2_03" />
+
+                    <ImageView
+                        android:id="@+id/btn_ico_2"
+                        android:layout_margin="15dp"
+                        android:background="#fff"
+                        android:onClick="onBtnClick"
+                        android:src="@drawable/index2_05" />
+
+                    <ImageView
+                        android:id="@+id/btn_ico_3"
+                        android:layout_margin="15dp"
+                        android:background="#fff"
+                        android:onClick="onBtnClick"
+                        android:src="@drawable/index2_07" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="0.0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="#fff" >
+
+                    <ImageView
+                        android:id="@+id/btn_ico_4"
+                        android:layout_margin="15dp"
+                        android:background="#fff"
+                        android:onClick="onBtnClick"
+                        android:src="@drawable/index2_12" />
+
+                    <ImageView
+                        android:id="@+id/btn_ico_5"
+                        android:layout_margin="15dp"
+                        android:background="#fff"
+                        android:onClick="onBtnClick"
+                        android:src="@drawable/index2_13" />
+
+                    <ImageView
+                        android:id="@+id/btn_ico_6"
+                        android:layout_margin="15dp"
+                        android:background="#fff"
+                        android:onClick="onBtnClick"
+                        android:src="@drawable/index2_14" />
+                </TableRow>
+            </TableLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_tab_bottom_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/maintab_toolbar_bg"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:id="@+id/main_tab_wxlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/tab_img_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/btn1_1" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tab_tv_1"
+                    style="@style/tab_rb_style"
+                    android:text="首页" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:id="@+id/main_tab_txllayout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/tab_img_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/btn2_2" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tab_tv_2"
+                    style="@style/tab_rb_style"
+                    android:text="产品" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:id="@+id/main_tab_fxlayout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/tab_img_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/btn3_2" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tab_tv_3"
+                    style="@style/tab_rb_style"
+                    android:text="积分商场" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:id="@+id/main_tab_wolayout"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/tab_img_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/btn4_2" >
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/tab_tv_4"
+                    style="@style/tab_rb_style"
+                    android:text="联系我们" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>
