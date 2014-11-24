@@ -4,8 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 /**
- * 文件访问和操作类
- * @Description: 文件访问和操作类
+ * 鏂囦欢璁块棶鍜屾搷浣滅被
+ * @Description: 鏂囦欢璁块棶鍜屾搷浣滅被
 
  * @File: FileAccess.java
 
@@ -13,7 +13,7 @@ import java.io.InputStream;
 
  * @Author Hanyonglu
 
- * @Date 2012-6-18 下午04:24:30
+ * @Date 2012-6-18 涓嬪崍04:24:30
 
  * @Version V1.0
  */

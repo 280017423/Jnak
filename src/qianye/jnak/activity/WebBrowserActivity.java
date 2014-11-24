@@ -1,22 +1,16 @@
 package qianye.jnak.activity;
 
 import qianye.jnak.R;
-import qianye.jnak.service.loadpage_HttpThread;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 /**
  * 用户活动场景
@@ -26,7 +20,7 @@ import android.widget.Toast;
  * @author panxianyi
  * 
  */
-public class WebBrowserActivity extends baseActivity {
+public class WebBrowserActivity extends BaseActivity {
 
 	/** Called when the activity is first created. */
 
@@ -35,6 +29,7 @@ public class WebBrowserActivity extends baseActivity {
 	private String str_loadUrl;
 	ProgressDialog progressBar;
 	AlertDialog alertDialog;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,46 +53,43 @@ public class WebBrowserActivity extends baseActivity {
 		alertDialog = new AlertDialog.Builder(this).create();
 		// 获得传入参数
 		Intent intent = getIntent();
-		str_userName = baseActivity.pub_userName;
+		str_userName = BaseActivity.pub_userName;
 		str_loadUrl = intent.getStringExtra("str_loadurl");
-		
+
 		webview_letterList.getSettings().setJavaScriptEnabled(true);
-		webview_letterList.getSettings().setSupportZoom(true);  
+		webview_letterList.getSettings().setSupportZoom(true);
 		webview_letterList.getSettings().setBuiltInZoomControls(true);
 		webview_letterList.loadUrl(str_loadUrl);
-		webview_letterList.setWebViewClient(new WebViewClient() {   
+		webview_letterList.setWebViewClient(new WebViewClient() {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				view.loadUrl(url);
 				return true;
-				}
+			}
 
-				public void onPageFinished(WebView view, String url) {
-				if(progressBar.isShowing()){
+			public void onPageFinished(WebView view, String url) {
+				if (progressBar.isShowing()) {
 					progressBar.dismiss();
 				}
-				}
+			}
 
-
-				
-				public void onReceivedError(WebView view, int errorCode,
-				String description, String failingUrl) {
+			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				Toast.makeText(WebBrowserActivity.this, "网络连接失败 ,请连接网络!", Toast.LENGTH_LONG);
-//				alertDialog.setTitle("ERROR");
-//				alertDialog.setMessage(description);
-//				alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
-//				public void onClick(DialogInterface dialog, int which) {
-//				// TODO Auto-generated method stub
-//				}
-//				});
-//				alertDialog.show();
-				}
-			     });   
+				// alertDialog.setTitle("ERROR");
+				// alertDialog.setMessage(description);
+				// alertDialog.setButton("OK", new
+				// DialogInterface.OnClickListener(){
+				// public void onClick(DialogInterface dialog, int which) {
+				// // TODO Auto-generated method stub
+				// }
+				// });
+				// alertDialog.show();
+			}
+		});
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK)
-				&& webview_letterList.canGoBack()) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK) && webview_letterList.canGoBack()) {
 			webview_letterList.goBack();
 			return true;
 		}
@@ -106,7 +98,7 @@ public class WebBrowserActivity extends baseActivity {
 
 	// Listen for button clicks
 	private void setListensers() {
-		//text_back.setOnClickListener(callBack);
+		// text_back.setOnClickListener(callBack);
 	}
 
 	private TextView.OnClickListener callBack = new TextView.OnClickListener() {

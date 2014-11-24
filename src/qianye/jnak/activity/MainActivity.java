@@ -52,7 +52,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class MainActivity extends baseActivity {
+public class MainActivity extends BaseActivity {
 	private NewsXmlParser xmlParser;
 	private AutoScrollViewPager mViewPager;
 	private RelativeLayout mGalleryLayout;

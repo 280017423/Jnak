@@ -1,12 +1,12 @@
 package qianye.jnak.activity;
+
 import java.util.Date;
 
 import qianye.jnak.R;
 import qianye.jnak.dao.CustomerDAO;
 import qianye.jnak.model.Customer;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CustomerManagerActivity extends baseActivity {
+public class CustomerManagerActivity extends BaseActivity {
 	long id;
 	EditText et_name;
 	EditText et_company;
@@ -25,6 +25,7 @@ public class CustomerManagerActivity extends baseActivity {
 	EditText et_address;
 	Button btn;
 	CustomerDAO dao;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,8 +41,8 @@ public class CustomerManagerActivity extends baseActivity {
 		Intent i = getIntent();
 		id = i.getLongExtra("id", 0);
 		Log.d("customerid", String.valueOf(id));
-		
-		dao=new CustomerDAO(this);
+
+		dao = new CustomerDAO(this);
 		loadData();
 	}
 
@@ -52,13 +53,12 @@ public class CustomerManagerActivity extends baseActivity {
 		return true;
 	}
 
-
 	void loadData() {
 
 		if (id > 0) {
 			btn.setText("修改");
-			Customer c=dao.get(id);
-			if (c.get_id()>0) {
+			Customer c = dao.get(id);
+			if (c.get_id() > 0) {
 				et_name.setText(c.getName());
 				et_company.setText(c.getCompany());
 				et_post.setText(c.getPost());
@@ -74,7 +74,7 @@ public class CustomerManagerActivity extends baseActivity {
 			btn.setText("添加");
 		}
 	}
-	
+
 	public void btnok(View v) {
 		String name = et_name.getText().toString().trim();
 		String company = et_company.getText().toString().trim();
@@ -93,12 +93,12 @@ public class CustomerManagerActivity extends baseActivity {
 		cus.setEmail(email);
 		cus.setAddress(address);
 		cus.set_id(id);
-		if(cus.get_id()>0){
+		if (cus.get_id() > 0) {
 			dao.update(cus);
 			msg = "修改成功";
 		} else {
-		    cus.setUsername(pub_userName);
-		    cus.setCreateon(new Date().toString());
+			cus.setUsername(pub_userName);
+			cus.setCreateon(new Date().toString());
 			dao.Add(cus);
 			msg = "添加成功";
 		}

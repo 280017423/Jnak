@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.webkit.WebView;
 
-public class loadpage_HttpThread extends Thread {
+public class LoadpageHttpThread extends Thread {
 	private Handler handle = new Handler();
     private ProgressDialog progressDialog = null;
     String url = null;
@@ -17,20 +17,20 @@ public class loadpage_HttpThread extends Thread {
     Context context=null;
     
 
- // Ïß³Ì¿ªÊ¼
+ // çº¿ç¨‹å¼€å§‹
  	public void doStart(String url,  WebView webview_letterList,Context context) {
- 		// °Ñ²ÎÊı´«½øÀ´
+ 		// æŠŠå‚æ•°ä¼ è¿›æ¥
  		this.url = url;
  		this.webview_letterList=webview_letterList;
  		this.context=context;
- 		// ¸æËßÊ¹ÓÃÕß£¬ÇëÇó¿ªÊ¼ÁË
+ 		// å‘Šè¯‰ä½¿ç”¨è€…ï¼Œè¯·æ±‚å¼€å§‹äº†
  		progressDialog = new ProgressDialog(context);
- 		// progressDialog.setTitle("Éí·İÈÏÖ¤");
- 		// progressDialog.setMessage("ÕıÔÚÇëÇó£¬ÇëÉÔµÈ......");
+ 		// progressDialog.setTitle("èº«ä»½è®¤è¯");
+ 		// progressDialog.setMessage("æ­£åœ¨è¯·æ±‚ï¼Œè¯·ç¨ç­‰......");
  		progressDialog.setIndeterminate(true);
- 		progressDialog = ProgressDialog.show(context, "ÇëµÈ´ı",
- 				"ÕıÔÚÀ­È¡Êı¾İ£¬ÇëÉÔµÈ......", true, true);
- 		progressDialog.setButton("È¡Ïû", new DialogInterface.OnClickListener() {
+ 		progressDialog = ProgressDialog.show(context, "è¯·ç­‰å¾…",
+ 				"æ­£åœ¨æ‹‰å–æ•°æ®ï¼Œè¯·ç¨ç­‰......", true, true);
+ 		progressDialog.setButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
  			public void onClick(DialogInterface dialog, int i) {
  				progressDialog.cancel();
 
@@ -42,7 +42,7 @@ public class loadpage_HttpThread extends Thread {
  					}
  				});
  		progressDialog.show();
- 		this.start(); // Ïß³Ì¿ªÊ¼ÁË
+ 		this.start(); // çº¿ç¨‹å¼€å§‹äº†
  	}
  	
  	@Override
@@ -53,19 +53,19 @@ public class loadpage_HttpThread extends Thread {
 			String baseUrl=context.getString(qianye.jnak.R.string.url_pageserver);
 			String encoding="UTF-8";
 			String mimeType="text/html";
-			// web serviceÇëÇó,resultÎª·µ»Ø½á¹û
+			// web serviceè¯·æ±‚,resultä¸ºè¿”å›ç»“æœ
 			String result = FCommon.getContent(url);
 			//result = URLEncoder.encode(result);
 			webview_letterList.getSettings().setDefaultTextEncodingName(encoding) ;
 			webview_letterList.loadDataWithBaseURL(baseUrl, result, mimeType, encoding, null);
 			//webview_letterList.loadData(result, mimeType, encoding);
 			//webview_letterList.loadUrl(url);
-			// È¡Ïû½ø¶È¶Ô»°¿ò
+			// å–æ¶ˆè¿›åº¦å¯¹è¯æ¡†
 			progressDialog.dismiss();
 			// clswdy.this.setProgressBarIndeterminateVisibility(false);
-			// ¹¹ÔìÏûÏ¢,ÑéÖ¤Í¨¹ıÁË
+			// æ„é€ æ¶ˆæ¯,éªŒè¯é€šè¿‡äº†
 			Message message = handle.obtainMessage();
-			message.what = 1; // ÕâÀïÊÇÏûÏ¢µÄÀàĞÍ
+			message.what = 1; // è¿™é‡Œæ˜¯æ¶ˆæ¯çš„ç±»å‹
 		
 
 
@@ -73,7 +73,7 @@ public class loadpage_HttpThread extends Thread {
 
 		} catch (Exception ex) {
 			progressDialog.dismiss();
-			// ¹¹ÔìÏûÏ¢£¬³ÌĞò³ö´íÁË
+			// æ„é€ æ¶ˆæ¯ï¼Œç¨‹åºå‡ºé”™äº†
 			Message message = handle.obtainMessage();
 			Bundle b = new Bundle();
 			message.what = 2;

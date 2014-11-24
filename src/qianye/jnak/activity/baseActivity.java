@@ -14,7 +14,7 @@ import android.view.MenuItem;
  * @author panxianyi
  * 
  */
-public class baseActivity extends PublicActivity {
+public class BaseActivity extends PublicActivity {
 	public static String pub_userName;
 
 	@Override

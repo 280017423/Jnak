@@ -79,7 +79,7 @@ public class ArticleDao {
 			cus.set_id(cur.getInt(cur.getColumnIndex("_id")));
 		}else
 		{
-			Log.d("ÎÄÕÂÎ´²éµ½", String.valueOf(articleid) );
+			Log.d("æ–‡ç« æœªæŸ¥åˆ°", String.valueOf(articleid) );
 		}
 		return cus;
 	}
@@ -99,7 +99,7 @@ public class ArticleDao {
 		return db.update("article", values, "articleid=?", bindArgs);
 	}
 
-	// »ñµÃÊı¾İ¿âÖĞ×î´óµÄÎÄÕÂID
+	// è·å¾—æ•°æ®åº“ä¸­æœ€å¤§çš„æ–‡ç« ID
 	public int GetMaxArticleId() {
 		int id=0;
 		String strSql = "select max(articleid) as articleid from article";
@@ -111,7 +111,7 @@ public class ArticleDao {
 			return id;
 	}
 
-	// »ñµÃÊı¾İ¿âÖĞ×îĞ¡µÄÎÄÕÂID
+	// è·å¾—æ•°æ®åº“ä¸­æœ€å°çš„æ–‡ç« ID
 	public int GetMinArticleId() {
 		int id=0;
 		String strSql = "select min(articleid) as articleid from article";
@@ -125,7 +125,7 @@ public class ArticleDao {
 	}
 
 	/**
-	 * ¸ù¾İÊäÈëÄÚÈİÄ£ºı²éÑ¯
+	 * æ ¹æ®è¾“å…¥å†…å®¹æ¨¡ç³ŠæŸ¥è¯¢
 	 * 
 	 * @param name
 	 * @return
@@ -157,7 +157,7 @@ public class ArticleDao {
 				sql,
 				new String[] { String.valueOf(firstResult),
 						String.valueOf(maxResult) });
-	// ²»Òª¹Ø±ÕÊı¾İ¿â
+	// ä¸è¦å…³é—­æ•°æ®åº“
 		return cur;
 	}
 	public ArrayList<Article> getAllItems(int currentPage, int pageSize,int categoryid) {
@@ -182,7 +182,7 @@ public class ArticleDao {
 			article.setPicurl(cur.getString(cur.getColumnIndex("picurl")));
 			article.setVideourl(cur.getString(cur.getColumnIndex("videourl")));
 			items.add(article);
-		}// ²»Òª¹Ø±ÕÊı¾İ¿â
+		}// ä¸è¦å…³é—­æ•°æ®åº“
 		return items;
 	}
 	

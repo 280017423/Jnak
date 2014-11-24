@@ -36,8 +36,7 @@ public class EncryptUtil {
 	public final static byte[] MD5(String str) {
 		try {
 			byte[] res = str.getBytes("UTF-8");
-			MessageDigest mdTemp = MessageDigest.getInstance("MD5"
-					.toUpperCase());
+			MessageDigest mdTemp = MessageDigest.getInstance("MD5".toUpperCase());
 			mdTemp.update(res);
 			byte[] hash = mdTemp.digest();
 			return hash;
@@ -49,8 +48,7 @@ public class EncryptUtil {
 	public final static byte[] MD5(String str, int code) {
 		try {
 			byte[] res = str.getBytes("UTF-8");
-			MessageDigest mdTemp = MessageDigest.getInstance("MD5"
-					.toUpperCase());
+			MessageDigest mdTemp = MessageDigest.getInstance("MD5".toUpperCase());
 			mdTemp.update(res);
 			byte[] hash = mdTemp.digest();
 			return hash;
@@ -122,10 +120,8 @@ public class EncryptUtil {
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 */
-	public static byte[] DES3Encrypt(String key, String str)
-			throws NoSuchAlgorithmException, NoSuchPaddingException,
-			InvalidKeyException, UnsupportedEncodingException,
-			InvalidKeySpecException, IllegalBlockSizeException,
+	public static byte[] DES3Encrypt(String key, String str) throws NoSuchAlgorithmException, NoSuchPaddingException,
+			InvalidKeyException, UnsupportedEncodingException, InvalidKeySpecException, IllegalBlockSizeException,
 			BadPaddingException {
 
 		byte[] newkey = key.getBytes();
@@ -161,8 +157,7 @@ public class EncryptUtil {
 			if (edata != null) {
 				byte[] newkey = key.getBytes();
 				DESedeKeySpec dks = new DESedeKeySpec(newkey);
-				SecretKeyFactory keyFactory = SecretKeyFactory
-						.getInstance("DESede");
+				SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
 				SecretKey securekey = keyFactory.generateSecret(dks);
 				Cipher cipher = Cipher.getInstance("DESede/ECB/PKCS5Padding");
 				cipher.init(Cipher.DECRYPT_MODE, securekey, new SecureRandom());

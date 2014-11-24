@@ -1,18 +1,13 @@
 package qianye.jnak.activity;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import qianye.jnak.R;
 import qianye.jnak.common.FCommon;
 import qianye.jnak.common.NetGetData;
 import qianye.jnak.dao.ArticleDao;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.LinearLayout;
 
 /**
  * 欢迎场景

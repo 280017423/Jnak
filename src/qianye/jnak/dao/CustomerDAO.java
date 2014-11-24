@@ -85,7 +85,7 @@ public class CustomerDAO {
 	}
 
 	/**
-	 * ¸ù¾İÊäÈëÄÚÈİÄ£ºı²éÑ¯
+	 * æ ¹æ®è¾“å…¥å†…å®¹æ¨¡ç³ŠæŸ¥è¯¢
 	 * 
 	 * @param name
 	 * @return
@@ -128,7 +128,7 @@ public class CustomerDAO {
 			customer.setSid(cur.getInt(cur.getColumnIndex("sid")));
 			customer.setGid(cur.getInt(cur.getColumnIndex("gid")));
 			items.add(customer);
-		}// ²»Òª¹Ø±ÕÊı¾İ¿â
+		}// ä¸è¦å…³é—­æ•°æ®åº“
 		return items;
 	}
 }

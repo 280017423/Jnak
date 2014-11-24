@@ -26,52 +26,48 @@ import android.webkit.WebView;
 
 public class FCommon {
 
-	// ºÏ×÷Éí·İÕß±àÂë
+	// åˆä½œèº«ä»½è€…ç¼–ç 
 	public final static String partner = "netjxt";
-	// ½»Ò×°²È«¼ìÑéÂë£¬ÓÉÊı×ÖºÍ×ÖÄ¸×é³ÉµÄ32Î»×Ö·û´®
+	// äº¤æ˜“å®‰å…¨æ£€éªŒç ï¼Œç”±æ•°å­—å’Œå­—æ¯ç»„æˆçš„32ä½å­—ç¬¦ä¸²
 	public final static String key = "az3exqfb05k0hzpi8tr10bwfwnhs1weo";
 
-	// ×Ö·û±àÂë¸ñÊ½ Ä¿Ç°Ö§³Ö gbk »ò utf-8
+	// å­—ç¬¦ç¼–ç æ ¼å¼ ç›®å‰æ”¯æŒ gbk æˆ– utf-8
 	public final static String input_charset = "utf-8";
-	// Ç©Ãû·½Ê½ ²»ĞèĞŞ¸Ä
+	// ç­¾åæ–¹å¼ ä¸éœ€ä¿®æ”¹
 	public final static String sign_type = "MD5";
 
-	
-    /*
-     * ÅĞ¶ÏÄ¿Â¼ÊÇ·ñ´æÔÚ
-     */
-    public static boolean isDirExist(String filePath){
-        File file = new File(filePath);
-        if(!file.exists())
-            return false;  //file.mkdir(); //Èç¹û²»´æÔÚÔò´´½¨
-        else{
-            return true;
-        }
-    }
+	/*
+	 * åˆ¤æ–­ç›®å½•æ˜¯å¦å­˜åœ¨
+	 */
+	public static boolean isDirExist(String filePath) {
+		File file = new File(filePath);
+		if (!file.exists())
+			return false; // file.mkdir(); //å¦‚æœä¸å­˜åœ¨åˆ™åˆ›å»º
+		else {
+			return true;
+		}
+	}
 
 	/*
-	 * »ñµÃSD¿¨¸ùÄ¿Â¼
-	 * */
-	public static String getSDPath(){
-		  File sdDir = null;
-		  boolean sdCardExist = Environment.getExternalStorageState()
-		  .equals(android.os.Environment.MEDIA_MOUNTED); //ÅĞ¶Ïsd¿¨ÊÇ·ñ´æÔÚ
-		  if (sdCardExist)
-		  {
-		  sdDir = Environment.getExternalStorageDirectory();//»ñÈ¡¸úÄ¿Â¼
-		  }
-		  return sdDir.toString();
-		   
-		 }
+	 * è·å¾—SDå¡æ ¹ç›®å½•
+	 */
+	public static String getSDPath() {
+		File sdDir = null;
+		boolean sdCardExist = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED); // åˆ¤æ–­sdå¡æ˜¯å¦å­˜åœ¨
+		if (sdCardExist) {
+			sdDir = Environment.getExternalStorageDirectory();// è·å–è·Ÿç›®å½•
+		}
+		return sdDir.toString();
+
+	}
+
 	/*
-	 * ÅĞ¶ÏÊÇ·ñÁ¬½Ówifi
-	 * */
+	 * åˆ¤æ–­æ˜¯å¦è¿æ¥wifi
+	 */
 	public static Boolean NetWorkIsWifi(Context mContext) {
 		boolean netStatus = false;
-		ConnectivityManager connManager = (ConnectivityManager) mContext
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo mWifi = connManager
-				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		ConnectivityManager connManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		if (mWifi.isConnected()) {
 			netStatus = true;
 
@@ -81,18 +77,16 @@ public class FCommon {
 	}
 
 	/*
-	 * ÅĞ¶ÏÍøÂçÊÇ·ñ¿ÉÓÃ
+	 * åˆ¤æ–­ç½‘ç»œæ˜¯å¦å¯ç”¨
 	 */
 	public static boolean NetworkStatusOK(Context mContext) {
 		boolean netStatus = false;
 		try {
 			ConnectivityManager connectManager = (ConnectivityManager) mContext
 					.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetworkInfo = connectManager
-					.getActiveNetworkInfo();
+			NetworkInfo activeNetworkInfo = connectManager.getActiveNetworkInfo();
 			if (activeNetworkInfo != null) {
-				if (activeNetworkInfo.isAvailable()
-						&& activeNetworkInfo.isConnected()) {
+				if (activeNetworkInfo.isAvailable() && activeNetworkInfo.isConnected()) {
 					netStatus = true;
 				}
 			}
@@ -102,7 +96,7 @@ public class FCommon {
 		return netStatus;
 	}
 
-	// ½«»Ø³µ(\r)ºÍ¿Õ¸ñ(" ")»»³ÉHTML¸ñÊ½¶ÔÓ¦µÄ»»ĞĞºÍ¿Õ¸ñ
+	// å°†å›è½¦(\r)å’Œç©ºæ ¼(" ")æ¢æˆHTMLæ ¼å¼å¯¹åº”çš„æ¢è¡Œå’Œç©ºæ ¼
 	public static String EncodeHtml(String strInPut) {
 		String Temp = strInPut;
 		// Temp.Replace(" ", "&nbsp;");
@@ -110,12 +104,12 @@ public class FCommon {
 		Temp = Temp.replace(">", "&gt;");
 		// Temp.Replace("\r", "<br>");
 		// Temp.Replace("&","&amp;");
-		Temp = Temp.replace(",", "£¬");
+		Temp = Temp.replace(",", "ï¼Œ");
 		Temp = Temp.replace("\"", "&quot;");
 		return Temp;
 	}
 
-	// ½«HTML¸ñÊ½µÄ»»ĞĞºÍ¿Õ¸ñ»»³ÉÖĞµÄ¶ÔÓ¦×Ö·û("\r"¡¢" ")
+	// å°†HTMLæ ¼å¼çš„æ¢è¡Œå’Œç©ºæ ¼æ¢æˆä¸­çš„å¯¹åº”å­—ç¬¦("\r"ã€" ")
 	public static String DecodeHtml(String strInPut) {
 		String Temp = strInPut;
 
@@ -129,10 +123,10 @@ public class FCommon {
 	}
 
 	/**
-	 * ÅĞ¶ÏÍøÂçÊÇ·ñÓĞĞ§
+	 * åˆ¤æ–­ç½‘ç»œæ˜¯å¦æœ‰æ•ˆ
 	 * 
 	 * @param url
-	 * @return¡¡int
+	 * @returnã€€int
 	 * @throws Exception
 	 */
 	public static void LoadWebViewUrl(WebView view, String goUrl) {
@@ -147,8 +141,7 @@ public class FCommon {
 		}
 	}
 
-	public static void LoadWebViewUrl(Context context, WebView view,
-			String goUrl) {
+	public static void LoadWebViewUrl(Context context, WebView view, String goUrl) {
 		try {
 			boolean b = checkNetWork_b(context);
 			if (b)
@@ -161,12 +154,9 @@ public class FCommon {
 	}
 
 	private static boolean checkNetWork_b(Context context) {
-		ConnectivityManager connectMgr = (ConnectivityManager) context
-				.getSystemService(context.CONNECTIVITY_SERVICE);
-		NetworkInfo mobNetInfo = connectMgr
-				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		NetworkInfo wifiNetInfo = connectMgr
-				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		ConnectivityManager connectMgr = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+		NetworkInfo mobNetInfo = connectMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		NetworkInfo wifiNetInfo = connectMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		NetworkInfo mNetworkInfo = connectMgr.getActiveNetworkInfo();
 		boolean bmob = mobNetInfo.isConnected();
 		boolean bwifi = wifiNetInfo.isConnected();
@@ -199,7 +189,7 @@ public class FCommon {
 	}
 
 	/**
-	 * »ñµÃµ±Ç°³ÌĞò°æ±¾ºÅ
+	 * è·å¾—å½“å‰ç¨‹åºç‰ˆæœ¬å·
 	 * 
 	 * @param context
 	 * @return
@@ -208,8 +198,7 @@ public class FCommon {
 	public static int getVerCode(Context context) {
 		int verCode = -1;
 		try {
-			verCode = context.getPackageManager().getPackageInfo("qianye.jnak",
-					0).versionCode;
+			verCode = context.getPackageManager().getPackageInfo("qianye.jnak", 0).versionCode;
 		} catch (NameNotFoundException ex) {
 			ex.printStackTrace();
 		}
@@ -217,7 +206,7 @@ public class FCommon {
 	}
 
 	/**
-	 * »ñµÃµ±Ç°³ÌĞò°æ±¾Ãû³Æ
+	 * è·å¾—å½“å‰ç¨‹åºç‰ˆæœ¬åç§°
 	 * 
 	 * @param context
 	 * @return
@@ -226,8 +215,7 @@ public class FCommon {
 	public static String getVerName(Context context) {
 		String verName = "";
 		try {
-			verName = context.getPackageManager().getPackageInfo("qianye.jnak",
-					0).versionName;
+			verName = context.getPackageManager().getPackageInfo("qianye.jnak", 0).versionName;
 		} catch (NameNotFoundException ex) {
 			ex.printStackTrace();
 		}
@@ -235,7 +223,7 @@ public class FCommon {
 	}
 
 	/**
-	 * »ñÈ¡ÍøÖ·ÄÚÈİ
+	 * è·å–ç½‘å€å†…å®¹
 	 * 
 	 * @param url
 	 * @return
@@ -246,14 +234,13 @@ public class FCommon {
 
 		HttpClient client = new DefaultHttpClient();
 		HttpParams httpParams = client.getParams();
-		// ÉèÖÃÍøÂç³¬Ê±²ÎÊı
+		// è®¾ç½®ç½‘ç»œè¶…æ—¶å‚æ•°
 		HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
 		HttpConnectionParams.setSoTimeout(httpParams, 5000);
 		HttpResponse response = client.execute(new HttpGet(url));
 		HttpEntity entity = response.getEntity();
 		if (entity != null) {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					entity.getContent(), "UTF-8"), 8192);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(entity.getContent(), "UTF-8"), 8192);
 
 			String line = null;
 			while ((line = reader.readLine()) != null) {
@@ -265,7 +252,7 @@ public class FCommon {
 	}
 
 	/**
-	 * BASE64½âÃÜ
+	 * BASE64è§£å¯†
 	 * 
 	 * @param key
 	 * @return
@@ -278,7 +265,7 @@ public class FCommon {
 	}
 
 	/**
-	 * BASE64¼ÓÃÜ
+	 * BASE64åŠ å¯†
 	 * 
 	 * @param key
 	 * @return
@@ -295,7 +282,7 @@ public class FCommon {
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 			md5.update(val.getBytes());
-			byte[] m = md5.digest();// ¼ÓÃÜ
+			byte[] m = md5.digest();// åŠ å¯†
 			return getString(m);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
@@ -314,8 +301,7 @@ public class FCommon {
 	}
 
 	public static String getSing() {
-		String str = "input_charset=" + input_charset + "&partner=" + partner
-				+ key;
+		String str = "input_charset=" + input_charset + "&partner=" + partner + key;
 		str = md5One(str);
 		return str;
 	}
@@ -323,9 +309,8 @@ public class FCommon {
 	public static String getUrlParam(String userName) {
 		String para = "";
 
-		para = "user=" + userName + "&input_charset=" + input_charset
-				+ "&sign_type=" + sign_type + "&partner=" + partner + "&ysign="
-				+ getSing();
+		para = "user=" + userName + "&input_charset=" + input_charset + "&sign_type=" + sign_type + "&partner="
+				+ partner + "&ysign=" + getSing();
 		return para;
 	}
 
@@ -361,8 +346,7 @@ public class FCommon {
 		return byteArrayToHexString(md.digest());
 	}
 
-	private static String[] HexCode = { "0", "1", "2", "3", "4", "5", "6", "7",
-			"8", "9", "a", "b", "c", "d", "e", "f" };
+	private static String[] HexCode = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
 
 	public static String byteToHexString(byte b) {
 		int n = b;

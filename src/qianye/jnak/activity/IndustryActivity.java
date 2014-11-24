@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 
-public class IndustryActivity extends baseActivity {
+public class IndustryActivity extends BaseActivity {
 	private NewsXmlParser xmlParser;
 	private AutoScrollViewPager mViewPager;
 	private RelativeLayout mGalleryLayout;

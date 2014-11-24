@@ -3,7 +3,6 @@ package qianye.jnak.activity;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -19,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
 import qianye.jnak.R;
 import qianye.jnak.common.EncryptUtil;
 import qianye.jnak.common.NetGetData;
@@ -27,34 +25,35 @@ import qianye.jnak.dao.CustomerDAO;
 import qianye.jnak.dao.ListViewCustomerAdapter;
 import qianye.jnak.model.ArrgEntity;
 import qianye.jnak.model.Customer;
+import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.net.ParseException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.app.ProgressDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
 
-public class CustomerListActivity extends baseActivity implements
-		OnScrollListener {
+import com.google.gson.Gson;
+
+public class CustomerListActivity extends BaseActivity implements OnScrollListener {
 	private TextView loadInfo;
 	private ListView listView;
 	private LinearLayout loadLayout;
@@ -76,114 +75,92 @@ public class CustomerListActivity extends baseActivity implements
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
-			case 1:
-				strResult = (String) msg.obj;
-				ae = gson.fromJson(strResult, ArrgEntity.class);
-				bStr = ae.getBody();
-				if (ae.getMessageCode().equals("100")) {
-					bStr = EncryptUtil.DES3Decrypt(
-							EncryptUtil.BASE64Decrypt(bStr),
-							netGetData.getKey());
-					Log.d("bStr", bStr);
+				case 1:
+					strResult = (String) msg.obj;
+					ae = gson.fromJson(strResult, ArrgEntity.class);
+					bStr = ae.getBody();
+					if (ae.getMessageCode().equals("100")) {
+						bStr = EncryptUtil.DES3Decrypt(EncryptUtil.BASE64Decrypt(bStr), netGetData.getKey());
+						Log.d("bStr", bStr);
 
-					JSONObject obj = null;
-					try {
-						obj = new JSONObject(bStr);
-						JSONArray items = obj.getJSONArray("Items");
+						JSONObject obj = null;
+						try {
+							obj = new JSONObject(bStr);
+							JSONArray items = obj.getJSONArray("Items");
 
-						for (int i = 0; i < items.length(); i++) {
-							String phone = items.getJSONObject(i).getString(
-									"phone");
-							String mobile = items.getJSONObject(i).getString(
-									"mobile");
-							String email = items.getJSONObject(i).getString(
-									"email");
-							String company = items.getJSONObject(i).getString(
-									"company");
-							String name = items.getJSONObject(i).getString(
-									"name");
-							String address = items.getJSONObject(i).getString(
-									"address");
-							String username = items.getJSONObject(i).getString(
-									"username");
-							String createon = items.getJSONObject(i).getString(
-									"createon");
-							String post = items.getJSONObject(i).getString(
-									"post");
-							int sid = items.getJSONObject(i).getInt("sid");
-							int gid = items.getJSONObject(i).getInt("gid");
+							for (int i = 0; i < items.length(); i++) {
+								String phone = items.getJSONObject(i).getString("phone");
+								String mobile = items.getJSONObject(i).getString("mobile");
+								String email = items.getJSONObject(i).getString("email");
+								String company = items.getJSONObject(i).getString("company");
+								String name = items.getJSONObject(i).getString("name");
+								String address = items.getJSONObject(i).getString("address");
+								String username = items.getJSONObject(i).getString("username");
+								String createon = items.getJSONObject(i).getString("createon");
+								String post = items.getJSONObject(i).getString("post");
+								int sid = items.getJSONObject(i).getInt("sid");
+								int gid = items.getJSONObject(i).getInt("gid");
 
-							Customer cus = new Customer();
-							cus.setName(name);
-							cus.setCompany(company);
-							cus.setPost(post);
-							cus.setMobile(mobile);
-							cus.setPhone(phone);
-							cus.setEmail(email);
-							cus.setAddress(address);
-							cus.setCreateon(createon);
+								Customer cus = new Customer();
+								cus.setName(name);
+								cus.setCompany(company);
+								cus.setPost(post);
+								cus.setMobile(mobile);
+								cus.setPhone(phone);
+								cus.setEmail(email);
+								cus.setAddress(address);
+								cus.setCreateon(createon);
 
-							cus.setUsername(username);
-							cus.setGid(gid);
-							cus.setSid(sid);
+								cus.setUsername(username);
+								cus.setGid(gid);
+								cus.setSid(sid);
 
-							dao.Add(cus);
+								dao.Add(cus);
 
+							}
+							Toast.makeText(CustomerListActivity.this, "同步客户信息成功", Toast.LENGTH_LONG).show();
+							showAllData();
+
+						} catch (JSONException e) {
+							e.printStackTrace();
+							Toast.makeText(CustomerListActivity.this, "同步客户信息失败", Toast.LENGTH_LONG).show();
 						}
-						Toast.makeText(CustomerListActivity.this, "同步客户信息成功",
-								Toast.LENGTH_LONG).show();
-						showAllData();
-
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						Toast.makeText(CustomerListActivity.this, "同步客户信息失败",
-								Toast.LENGTH_LONG).show();
+					} else {
+						Toast.makeText(CustomerListActivity.this, ae.getMessage(), Toast.LENGTH_LONG).show();
 					}
-				} else {
-					Toast.makeText(CustomerListActivity.this, ae.getMessage(),
-							Toast.LENGTH_LONG).show();
-				}
-				break;
-			case 2:
-				Toast.makeText(CustomerListActivity.this, "网络异常",
-						Toast.LENGTH_LONG).show();
-				break;
+					break;
+				case 2:
+					Toast.makeText(CustomerListActivity.this, "网络异常", Toast.LENGTH_LONG).show();
+					break;
 
-			case 3:
-				strResult = (String) msg.obj;
-				ae = gson.fromJson(strResult, ArrgEntity.class);
-				bStr = ae.getBody();
-				if (ae.getMessageCode().equals("100")) {
-					bStr = EncryptUtil.DES3Decrypt(
-							EncryptUtil.BASE64Decrypt(bStr),
-							netGetData.getKey());
-					Log.d("bStr", bStr);
+				case 3:
+					strResult = (String) msg.obj;
+					ae = gson.fromJson(strResult, ArrgEntity.class);
+					bStr = ae.getBody();
+					if (ae.getMessageCode().equals("100")) {
+						bStr = EncryptUtil.DES3Decrypt(EncryptUtil.BASE64Decrypt(bStr), netGetData.getKey());
+						Log.d("bStr", bStr);
 
-					JSONObject obj = null;
-					try {
-						obj = new JSONObject(bStr);
-						String successed = obj.getString("Successed");
-						if (successed.equals("1")) {
-							Toast.makeText(CustomerListActivity.this,
-									"上传客户信息成功", Toast.LENGTH_LONG).show();
-						} else {
-							// Log.d("PostResult: ", "登录失败");
-							Toast.makeText(CustomerListActivity.this,
-									"上传客户信息失败", Toast.LENGTH_LONG).show();
+						JSONObject obj = null;
+						try {
+							obj = new JSONObject(bStr);
+							String successed = obj.getString("Successed");
+							if (successed.equals("1")) {
+								Toast.makeText(CustomerListActivity.this, "上传客户信息成功", Toast.LENGTH_LONG).show();
+							} else {
+								// Log.d("PostResult: ", "登录失败");
+								Toast.makeText(CustomerListActivity.this, "上传客户信息失败", Toast.LENGTH_LONG).show();
+							}
+						} catch (JSONException e) {
+							e.printStackTrace();
 						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					} else {
+						Toast.makeText(CustomerListActivity.this, ae.getMessage(), Toast.LENGTH_LONG).show();
 					}
-				} else {
-					Toast.makeText(CustomerListActivity.this, ae.getMessage(),
-							Toast.LENGTH_LONG).show();
-				}
 
-				break;
-			default:
-				break;
+					break;
+				default:
+					break;
 			}
 			if (progressdialog != null) {
 				if (progressdialog.isShowing()) {
@@ -214,21 +191,17 @@ public class CustomerListActivity extends baseActivity implements
 		loadInfo.setGravity(Gravity.CENTER);
 		// 增加组件
 		loadLayout.addView(loadInfo, new LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT));
+				LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 		// 增加到listView底部
 		listView.addFooterView(loadLayout);
 		// listView.setOnScrollListener(this);
 		showAllData();
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Customer customer = (Customer) baseAdapter.getItem(arg2);
-				Log.d("onItemClick",
-						"item=" + arg2 + "|title=" + customer.getName());
-				Intent i = new Intent(CustomerListActivity.this,
-						CustomerManagerActivity.class);
+				Log.d("onItemClick", "item=" + arg2 + "|title=" + customer.getName());
+				Intent i = new Intent(CustomerListActivity.this, CustomerManagerActivity.class);
 				i.putExtra("datatype", 1);
 				i.putExtra("id", customer.get_id());
 				startActivity(i);
@@ -257,14 +230,12 @@ public class CustomerListActivity extends baseActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.customer_list, menu);
+		getMenuInflater().inflate(R.menu.customer_list_item, menu);
 		return true;
 	}
 
 	@Override
-	public void onScroll(AbsListView view, int firstVisibleItem,
-			int visibleItemCount, int totalItemCount) {
+	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		lastItem = firstVisibleItem + visibleItemCount - 1; // 统计是否到最后
 	}
 
@@ -286,8 +257,7 @@ public class CustomerListActivity extends baseActivity implements
 	 * 增加数据
 	 * */
 	private void appendDate() {
-		ArrayList<Customer> additems = dao.getAllItems(pub_userName,
-				currentPage, lineSize);
+		ArrayList<Customer> additems = dao.getAllItems(pub_userName, currentPage, lineSize);
 		baseAdapter.setCount(baseAdapter.getCount() + additems.size());
 		// 判断，如果到了最末尾则去掉“正在加载”
 		if (allRecorders == baseAdapter.getCount()) {
@@ -300,28 +270,27 @@ public class CustomerListActivity extends baseActivity implements
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		long id = info.id;// ID
-		int position = info.position;//
+		int position = info.position;
 		Log.d("list_customerid", String.valueOf(id));
 		switch (item.getItemId()) {
-		case R.id.action_view:
+			case R.id.action_view:
 
-			break;
-		case R.id.action_modify:
-			Intent i = new Intent(this, CustomerManagerActivity.class);
-			i.putExtra("ID", id);
-			startActivity(i);
-			finish();
-			break;
-		case R.id.action_del:
-			Customer customer = (Customer) baseAdapter.getItem(position);
-			deleteCustomer(customer);
+				break;
+			case R.id.action_modify:
+				Intent i = new Intent(this, CustomerManagerActivity.class);
+				i.putExtra("ID", id);
+				startActivity(i);
+				finish();
+				break;
+			case R.id.action_del:
+				Customer customer = (Customer) baseAdapter.getItem(position);
+				deleteCustomer(customer);
 
-			break;
-		default:
-			break;
+				break;
+			default:
+				break;
 		}
 		return super.onContextItemSelected(item);
 	}
@@ -333,11 +302,9 @@ public class CustomerListActivity extends baseActivity implements
 		b.setNegativeButton("确定", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				dao.delete(customer.get_id());
 				showAllData();
-				Toast.makeText(CustomerListActivity.this, "删除成功",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(CustomerListActivity.this, "删除成功", Toast.LENGTH_LONG).show();
 			}
 		});
 		b.setPositiveButton("取消", null);
@@ -348,23 +315,21 @@ public class CustomerListActivity extends baseActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_adds:
-			startActivity(new Intent(CustomerListActivity.this,
-					CustomerManagerActivity.class));
-			finish();
-			break;
-		case R.id.action_back:
-			finish();
-			break;
-		default:
-			break;
+			case R.id.action_adds:
+				startActivity(new Intent(CustomerListActivity.this, CustomerManagerActivity.class));
+				finish();
+				break;
+			case R.id.action_back:
+				finish();
+				break;
+			default:
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	public void addcustomer(View v) {
-		startActivity(new Intent(CustomerListActivity.this,
-				CustomerManagerActivity.class));
+		startActivity(new Intent(CustomerListActivity.this, CustomerManagerActivity.class));
 		finish();
 	}
 
@@ -375,8 +340,7 @@ public class CustomerListActivity extends baseActivity implements
 		b.setPositiveButton("确定", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				progressdialog = ProgressDialog.show(CustomerListActivity.this,
-						"请等待...", "正在为您同步客户信息...");
+				progressdialog = ProgressDialog.show(CustomerListActivity.this, "请等待...", "正在为您同步客户信息...");
 				Down();
 			}
 		});
@@ -391,8 +355,7 @@ public class CustomerListActivity extends baseActivity implements
 		b.setPositiveButton("确定", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				progressdialog = ProgressDialog.show(CustomerListActivity.this,
-						"请等待...", "正在为您上传客户信息...");
+				progressdialog = ProgressDialog.show(CustomerListActivity.this, "请等待...", "正在为您上传客户信息...");
 				Up();
 			}
 		});
@@ -405,8 +368,7 @@ public class CustomerListActivity extends baseActivity implements
 			@Override
 			public void run() {
 
-				ArrayList<Customer> lst = dao.getAllItems(pub_userName, 1,
-						99999);
+				ArrayList<Customer> lst = dao.getAllItems(pub_userName, 1, 99999);
 				String postStr = netGetData.GetUpCustomerPostStr(lst);
 				String uriAPI = netGetData.getServerUrl();
 				/* 建立HTTP Post联机 */
@@ -418,16 +380,13 @@ public class CustomerListActivity extends baseActivity implements
 				params.add(new BasicNameValuePair("arrg", postStr));
 				try {
 					/* 发出HTTP request */
-					httpRequest.setEntity(new UrlEncodedFormEntity(params,
-							HTTP.UTF_8));
+					httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 					/* 取得HTTP response */
-					HttpResponse httpResponse = new DefaultHttpClient()
-							.execute(httpRequest);
+					HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
 					/* 若状态码为200 ok */
 					if (httpResponse.getStatusLine().getStatusCode() == 200) {
 						/* 取出响应字符串 */
-						String strResult1 = EntityUtils.toString(httpResponse
-								.getEntity());
+						String strResult1 = EntityUtils.toString(httpResponse.getEntity());
 						Log.d("PostResult", strResult1);
 						Message msg = handler.obtainMessage();
 
@@ -440,16 +399,12 @@ public class CustomerListActivity extends baseActivity implements
 						handler.sendEmptyMessage(2);
 					}
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -463,8 +418,7 @@ public class CustomerListActivity extends baseActivity implements
 			@Override
 			public void run() {
 
-				String postStr = netGetData
-						.GetDownCustomerPostStr(pub_userName);
+				String postStr = netGetData.GetDownCustomerPostStr(pub_userName);
 				String uriAPI = netGetData.getServerUrl();
 				/* 建立HTTP Post联机 */
 				HttpPost httpRequest = new HttpPost(uriAPI);
@@ -475,16 +429,13 @@ public class CustomerListActivity extends baseActivity implements
 				params.add(new BasicNameValuePair("arrg", postStr));
 				try {
 					/* 发出HTTP request */
-					httpRequest.setEntity(new UrlEncodedFormEntity(params,
-							HTTP.UTF_8));
+					httpRequest.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
 					/* 取得HTTP response */
-					HttpResponse httpResponse = new DefaultHttpClient()
-							.execute(httpRequest);
+					HttpResponse httpResponse = new DefaultHttpClient().execute(httpRequest);
 					/* 若状态码为200 ok */
 					if (httpResponse.getStatusLine().getStatusCode() == 200) {
 						/* 取出响应字符串 */
-						String strResult1 = EntityUtils.toString(httpResponse
-								.getEntity());
+						String strResult1 = EntityUtils.toString(httpResponse.getEntity());
 						Log.d("PostResult", strResult1);
 						Message msg = handler.obtainMessage();
 
@@ -500,13 +451,10 @@ public class CustomerListActivity extends baseActivity implements
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
