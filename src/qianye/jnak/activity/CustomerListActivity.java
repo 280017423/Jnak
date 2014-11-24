@@ -218,12 +218,12 @@ public class CustomerListActivity extends BaseActivity implements OnScrollListen
 	 * 
 	 */
 	public void showAllData() {
-		allRecorders = dao.GetCustomerAllCount(pub_userName);
+		allRecorders = dao.GetCustomerAllCount(mPubUserName);
 		// 计算总页数
 		pageSize = (allRecorders + lineSize - 1) / lineSize;
 		System.out.println("allRecorders = " + allRecorders);
 		System.out.println("pageSize = " + pageSize);
-		items = dao.getAllItems(pub_userName, currentPage, lineSize);
+		items = dao.getAllItems(mPubUserName, currentPage, lineSize);
 		baseAdapter = new ListViewCustomerAdapter(items, lineSize, this);
 		listView.setAdapter(baseAdapter);
 	}
@@ -257,7 +257,7 @@ public class CustomerListActivity extends BaseActivity implements OnScrollListen
 	 * 增加数据
 	 * */
 	private void appendDate() {
-		ArrayList<Customer> additems = dao.getAllItems(pub_userName, currentPage, lineSize);
+		ArrayList<Customer> additems = dao.getAllItems(mPubUserName, currentPage, lineSize);
 		baseAdapter.setCount(baseAdapter.getCount() + additems.size());
 		// 判断，如果到了最末尾则去掉“正在加载”
 		if (allRecorders == baseAdapter.getCount()) {
@@ -368,7 +368,7 @@ public class CustomerListActivity extends BaseActivity implements OnScrollListen
 			@Override
 			public void run() {
 
-				ArrayList<Customer> lst = dao.getAllItems(pub_userName, 1, 99999);
+				ArrayList<Customer> lst = dao.getAllItems(mPubUserName, 1, 99999);
 				String postStr = netGetData.GetUpCustomerPostStr(lst);
 				String uriAPI = netGetData.getServerUrl();
 				/* 建立HTTP Post联机 */
@@ -418,7 +418,7 @@ public class CustomerListActivity extends BaseActivity implements OnScrollListen
 			@Override
 			public void run() {
 
-				String postStr = netGetData.GetDownCustomerPostStr(pub_userName);
+				String postStr = netGetData.GetDownCustomerPostStr(mPubUserName);
 				String uriAPI = netGetData.getServerUrl();
 				/* 建立HTTP Post联机 */
 				HttpPost httpRequest = new HttpPost(uriAPI);
@@ -448,7 +448,6 @@ public class CustomerListActivity extends BaseActivity implements OnScrollListen
 						handler.sendEmptyMessage(2);
 					}
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import qianye.jnak.R;
 import qianye.jnak.common.FileAccess;
 import qianye.jnak.dao.ArticleDao;
 import qianye.jnak.model.Article;
@@ -19,16 +18,10 @@ public class NewsXmlParser {
 		dao = new ArticleDao(context);
 	}
 
-	private int[] slideImages = { R.drawable.tb1, R.drawable.tb2, R.drawable.tb3 };
-
 	private String[] slideUrls = {
 			"http://mobile.csdn.net/a/20120616/2806676.html",
 			"http://cloud.csdn.net/a/20120614/2806646.html",
 			"http://mobile.csdn.net/a/20120613/2806603.html" };
-
-	public int[] getSlideImages() {
-		return slideImages;
-	}
 
 	public String[] getSlideUrls() {
 		return slideUrls;

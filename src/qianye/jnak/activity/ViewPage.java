@@ -4,7 +4,6 @@ import qianye.jnak.R;
 import qianye.jnak.common.FCommon;
 import qianye.jnak.dao.ArticleDao;
 import qianye.jnak.model.Article;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -17,7 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ViewPage extends Activity {
+public class ViewPage extends BaseActivity {
 	ProgressDialog progressBar;
 	AlertDialog alertDialog;
 	private String str_loadUrl;

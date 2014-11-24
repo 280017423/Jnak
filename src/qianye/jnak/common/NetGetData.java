@@ -22,9 +22,9 @@ import qianye.jnak.dao.ArticleDao;
 import qianye.jnak.model.ArrgEntity;
 import qianye.jnak.model.Article;
 import qianye.jnak.model.Customer;
+import qianye.jnak.widget.LoadingUpView;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -59,7 +59,7 @@ public class NetGetData {
 	ArrgEntity ae = new ArrgEntity();
 
 	public ArrgEntity getData(final Context context, final String action, String bodyStr, String[] par,
-			final Activity oldActivity, final Class<?> cls, final ProgressDialog progressBar) {
+			final Activity oldActivity, final Class<?> cls, final LoadingUpView loadingUpView) {
 		String sequence = UUID.randomUUID().toString();//
 		long timestamp = new Date().getTime();
 		// String action = "get_article_list";
@@ -76,33 +76,24 @@ public class NetGetData {
 
 		byte[] md5_singed = EncryptUtil.MD5(result.toString());
 		String signed = EncryptUtil.BASE64Encrypt(md5_singed);
-		// String bodyStr =
-		// "{\"category_id\":0,\"page_size\":10,\"page_index\":1,\"max_article_id\":0}";
 		Log.d("bodyStr", bodyStr);
 		String passBody = "";
 		try {
 			byte[] des_passBody = EncryptUtil.DES3Encrypt(key, bodyStr);
 			passBody = EncryptUtil.BASE64Encrypt(des_passBody);
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String inputStr = "{\"Sequence\":\"" + sequence + "\",\"Sn\":\"" + sn + "\",\"Signed\":\"" + signed
@@ -112,7 +103,6 @@ public class NetGetData {
 		try {
 			postStr = URLEncoder.encode(inputStr, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Log.d("postStr", postStr);
@@ -130,12 +120,11 @@ public class NetGetData {
 			@Override
 			public void onFailure(HttpException arg0, String arg1) {
 				Log.d("onFailure", "onFailure");
-				SkipActivity(context, oldActivity, cls, progressBar);
+				SkipActivity(context, oldActivity, cls, loadingUpView);
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> arg0) {
-				// TODO Auto-generated method stub
 				String json = arg0.result;
 				Log.d("onSuccess", json);
 
@@ -146,7 +135,7 @@ public class NetGetData {
 				} else {
 					bStr = EncryptUtil.DES3Decrypt(EncryptUtil.BASE64Decrypt(bStr), key);
 					Log.d("bStr", bStr);
-					Prosess(ae, context, bStr, action, oldActivity, cls, progressBar);// 处理返回结果
+					Prosess(ae, context, bStr, action, oldActivity, cls, loadingUpView);// 处理返回结果
 				}
 			}
 		});
@@ -157,13 +146,12 @@ public class NetGetData {
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 	// 处理返回结果
 	void Prosess(ArrgEntity arrgEntity, Context context, String body, String action, Activity ac1, Class<?> cls,
-			ProgressDialog pb) {
+			LoadingUpView loadingUpView) {
 		if (arrgEntity.getMessageCode().equals("100")) {
 			JSONObject obj = null;
 			try {
 				obj = new JSONObject(body);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			if (action.equals("get_article_list")) {
@@ -201,7 +189,6 @@ public class NetGetData {
 						}
 
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} finally {
 					}
@@ -246,39 +233,32 @@ public class NetGetData {
 						}
 
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} finally {
 					}
 				}
 			}
-		} else
-
-		{
+		} else {
 			Log.d("Message", arrgEntity.getMessage());
 
 			try {
-				if (pb != null) {
-					if (pb.isShowing()) {
-						pb.dismiss();
+				if (loadingUpView != null) {
+					if (loadingUpView.isShowing()) {
+						loadingUpView.dismiss();
 					}
-
 				}
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
-		SkipActivity(context, ac1, cls, pb);
-
+		SkipActivity(context, ac1, cls, loadingUpView);
 	}
 
-	void SkipActivity(Context context, Activity ac1, Class<?> cls, ProgressDialog pb) {
-		if (pb != null) {
-			if (pb.isShowing()) {
-				pb.dismiss();
+	void SkipActivity(Context context, Activity ac1, Class<?> cls, LoadingUpView loadingUpView) {
+		if (loadingUpView != null) {
+			if (loadingUpView.isShowing()) {
+				loadingUpView.dismiss();
 			}
 
 		}
@@ -311,25 +291,18 @@ public class NetGetData {
 			byte[] des_passBody = EncryptUtil.DES3Encrypt(key, bodyStr);
 			passBody = EncryptUtil.BASE64Encrypt(des_passBody);
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String inputStr = "{\"Sequence\":\"" + sequence + "\",\"Sn\":\"" + sn + "\",\"Signed\":\"" + signed
@@ -339,7 +312,6 @@ public class NetGetData {
 		try {
 			postStr = URLEncoder.encode(inputStr, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Log.d("postStr", postStr);
@@ -367,25 +339,18 @@ public class NetGetData {
 			byte[] des_passBody = EncryptUtil.DES3Encrypt(key, bodyStr);
 			passBody = EncryptUtil.BASE64Encrypt(des_passBody);
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String inputStr = "{\"Sequence\":\"" + sequence + "\",\"Sn\":\"" + sn + "\",\"Signed\":\"" + signed
@@ -395,7 +360,6 @@ public class NetGetData {
 		try {
 			postStr = URLEncoder.encode(inputStr, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Log.d("postStr", postStr);
@@ -444,25 +408,18 @@ public class NetGetData {
 			byte[] des_passBody = EncryptUtil.DES3Encrypt(key, bodyStr.toString());
 			passBody = EncryptUtil.BASE64Encrypt(des_passBody);
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String inputStr = "{\"Sequence\":\"" + sequence + "\",\"Sn\":\"" + sn + "\",\"Signed\":\"" + signed
@@ -472,7 +429,6 @@ public class NetGetData {
 		try {
 			postStr = URLEncoder.encode(inputStr, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Log.d("postStr", postStr);

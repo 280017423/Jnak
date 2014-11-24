@@ -11,7 +11,6 @@ import qianye.jnak.R;
 import qianye.jnak.adapter.FolderAdapter;
 import qianye.jnak.util.FileUtil;
 import qianye.jnak.util.OpenFileUtil;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class TravelListActivity extends Activity implements OnItemClickListener {
+public class TravelListActivity extends BaseActivity implements OnItemClickListener {
 	private ListView mGvRootFolder;
 	private ArrayList<File> mFileList;
 	private FolderAdapter mFilAdapter;

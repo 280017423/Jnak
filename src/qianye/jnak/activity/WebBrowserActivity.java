@@ -22,8 +22,6 @@ import android.widget.Toast;
  */
 public class WebBrowserActivity extends BaseActivity {
 
-	/** Called when the activity is first created. */
-
 	private WebView webview_letterList;
 	private String str_userName;
 	private String str_loadUrl;
@@ -33,7 +31,6 @@ public class WebBrowserActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.webbrowser);
 		findViews();
 		setListensers();
@@ -48,12 +45,12 @@ public class WebBrowserActivity extends BaseActivity {
 	// 初始信息
 	private void initData() {
 
-		activityList.add(WebBrowserActivity.this);
+		mActivityList.add(WebBrowserActivity.this);
 		progressBar = ProgressDialog.show(WebBrowserActivity.this, null, "正在努力加载，请稍后…");
 		alertDialog = new AlertDialog.Builder(this).create();
 		// 获得传入参数
 		Intent intent = getIntent();
-		str_userName = BaseActivity.pub_userName;
+		str_userName = mPubUserName;
 		str_loadUrl = intent.getStringExtra("str_loadurl");
 
 		webview_letterList.getSettings().setJavaScriptEnabled(true);
@@ -73,16 +70,7 @@ public class WebBrowserActivity extends BaseActivity {
 			}
 
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				Toast.makeText(WebBrowserActivity.this, "网络连接失败 ,请连接网络!", Toast.LENGTH_LONG);
-				// alertDialog.setTitle("ERROR");
-				// alertDialog.setMessage(description);
-				// alertDialog.setButton("OK", new
-				// DialogInterface.OnClickListener(){
-				// public void onClick(DialogInterface dialog, int which) {
-				// // TODO Auto-generated method stub
-				// }
-				// });
-				// alertDialog.show();
+				Toast.makeText(WebBrowserActivity.this, "网络连接失败 ,请连接网络!", Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -96,15 +84,12 @@ public class WebBrowserActivity extends BaseActivity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	// Listen for button clicks
 	private void setListensers() {
-		// text_back.setOnClickListener(callBack);
 	}
 
 	private TextView.OnClickListener callBack = new TextView.OnClickListener() {
 		public void onClick(View v) {
 			System.gc();
-			// System.exit(0);
 			finish();
 		}
 	};

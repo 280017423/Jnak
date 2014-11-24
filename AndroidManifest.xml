@@ -19,10 +19,10 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ico_main"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
-        android:theme="@android:style/Theme.NoTitleBar" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="qianye.jnak.activity.LoadActivity"
             android:label="@string/app_name"
@@ -94,6 +94,25 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" >
         </activity>
+
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5472ad2ffd98c5d567001026" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="develop" />
     </application>
 
 </manifest>

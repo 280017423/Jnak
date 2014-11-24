@@ -8,6 +8,7 @@ import qianye.jnak.common.NetGetData;
 import qianye.jnak.dao.ArticleDao;
 import qianye.jnak.dao.ListViewAdapter;
 import qianye.jnak.model.Article;
+import qianye.jnak.widget.LoadingUpView;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class NewsListActivity extends BaseActivity implements OnScrollListener {
-	ProgressDialog progressBar;
+	private LoadingUpView mLoadingUpView;
 	private TextView loadInfo;
 	private ListView listView;
 	private LinearLayout loadLayout;
@@ -42,6 +43,7 @@ public class NewsListActivity extends BaseActivity implements OnScrollListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_news_list);
+		mLoadingUpView = new LoadingUpView(this);
 		dao = new ArticleDao(this);
 
 		listView = (ListView) findViewById(R.id.lv_newslist);
@@ -133,7 +135,6 @@ public class NewsListActivity extends BaseActivity implements OnScrollListener {
 	}
 
 	public void initarticle(View v) {
-		progressBar = ProgressDialog.show(this, null, "正在同步，请稍后…");
 		boolean netStatus = FCommon.NetworkStatusOK(this);
 
 		if (netStatus) {
@@ -142,7 +143,8 @@ public class NewsListActivity extends BaseActivity implements OnScrollListener {
 			String action = "get_article_list";
 			String bodyStr = "{\"category_id\":0,\"page_size\":100,\"page_index\":1,\"max_article_id\":" + maxarticleid
 					+ "}";
-			new NetGetData().getData(this, action, bodyStr, par, null, null, progressBar);
+			showLoadingUpView(mLoadingUpView);
+			new NetGetData().getData(this, action, bodyStr, par, null, null, mLoadingUpView);
 		} else {
 			Log.d("loadpage", "网络不存在!");
 		}

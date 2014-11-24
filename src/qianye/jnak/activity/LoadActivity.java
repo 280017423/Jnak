@@ -4,7 +4,7 @@ import qianye.jnak.R;
 import qianye.jnak.common.FCommon;
 import qianye.jnak.common.NetGetData;
 import qianye.jnak.dao.ArticleDao;
-import android.app.ProgressDialog;
+import qianye.jnak.widget.LoadingUpView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +15,15 @@ import android.util.Log;
  * @author panxianyi
  * 
  */
-public class LoadActivity extends PublicActivity {
-	ProgressDialog progressBar;
+public class LoadActivity extends BaseActivity {
+
+	private LoadingUpView mLoadingUpView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loading);
-		progressBar = ProgressDialog.show(this, null, "正努力加载数据，请稍后…");
+		mLoadingUpView = new LoadingUpView(this);
 		getData();
 	}
 
@@ -35,7 +36,8 @@ public class LoadActivity extends PublicActivity {
 			String action = "get_article_list";
 			String bodyStr = "{\"category_id\":0,\"page_size\":100,\"page_index\":1,\"max_article_id\":" + maxarticleid
 					+ "}";
-			new NetGetData().getData(this, action, bodyStr, par, this, MainActivity.class, progressBar);
+			showLoadingUpView(mLoadingUpView);
+			new NetGetData().getData(this, action, bodyStr, par, this, MainActivity.class, mLoadingUpView);
 		} else {
 			Log.d("loadpage", "网络不存在!");
 			try {

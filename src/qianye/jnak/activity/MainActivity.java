@@ -18,12 +18,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import qianye.jnak.R;
+import qianye.jnak.adapter.AdverAdapter;
 import qianye.jnak.common.EncryptUtil;
 import qianye.jnak.common.NetGetData;
 import qianye.jnak.dao.UserDao;
 import qianye.jnak.model.ArrgEntity;
 import qianye.jnak.model.User;
-import qianye.jnak.parser.NewsXmlParser;
 import qianye.jnak.widget.AutoScrollViewPager;
 import qianye.jnak.widget.CircleFlowIndicator;
 import android.annotation.SuppressLint;
@@ -35,9 +35,6 @@ import android.net.ParseException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -45,28 +42,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends BaseActivity {
-	private NewsXmlParser xmlParser;
+	private static final long WAIT_TIME = 2000;
 	private AutoScrollViewPager mViewPager;
 	private RelativeLayout mGalleryLayout;
 	private CircleFlowIndicator mCircleFlowIndicator;
-	private List<ImageView> imageViews; // 滑动的图片集合
-
-	private int[] imageResId; // 图片ID
+	private AdverAdapter mAdapter;
 
 	private ProgressDialog progressdialog;
 	private AlertDialog selfdialog;
 	private String usernamestr;
 	private String passwordstr;
-	UserDao userDao;
-	NetGetData netGetData;
+	private UserDao userDao;
+	private long mTouchTime;
+	private NetGetData netGetData;
 
 	// 切换当前显示的图片
 	private Handler handler = new Handler() {
@@ -108,7 +104,7 @@ public class MainActivity extends BaseActivity {
 								}
 								Intent spIntent = new Intent(MainActivity.this, CustomerListActivity.class);
 								startActivity(spIntent);
-								pub_userName = usernamestr;
+								mPubUserName = usernamestr;
 								if (progressdialog != null) {
 									if (progressdialog.isShowing()) {
 										progressdialog.dismiss();
@@ -135,30 +131,19 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		xmlParser = new NewsXmlParser(this);
-		imageResId = xmlParser.getSlideImages();
-
-		imageViews = new ArrayList<ImageView>();
-
-		// 初始化图片资源
-		for (int i = 0; i < imageResId.length; i++) {
-			ImageView imageView = new ImageView(this);
-			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.FIT_XY);
-			imageViews.add(imageView);
-		}
-
+		UmengUpdateAgent.setDefault();
+		UmengUpdateAgent.forceUpdate(this);
+		mAdapter = new AdverAdapter(this);
 		mCircleFlowIndicator = (CircleFlowIndicator) findViewById(R.id.cfi_indicator);
-		mCircleFlowIndicator.setCount(imageViews.size());
+		mCircleFlowIndicator.setCount(mAdapter.getSize());
 		mViewPager = (AutoScrollViewPager) findViewById(R.id.vp);
 		mGalleryLayout = (RelativeLayout) findViewById(R.id.rl_gallery_layout);
-		mViewPager.setAdapter(new MyAdapter());
+		mViewPager.setAdapter(mAdapter);
 		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int position) {
-				mCircleFlowIndicator.setSeletion(position % imageViews.size());
+				mCircleFlowIndicator.setSeletion(position % mAdapter.getSize());
 			}
 
 			@Override
@@ -176,14 +161,13 @@ public class MainActivity extends BaseActivity {
 		lp.width = WIDTH;
 		lp.height = WIDTH * 400 / 640;
 		mGalleryLayout.setLayoutParams(lp);
-		mViewPager.setAdapter(new MyAdapter());
 		userDao = new UserDao(this);
 
 		netGetData = new NetGetData();
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		mViewPager.startAutoScroll();
 		super.onResume();
 	}
@@ -192,56 +176,6 @@ public class MainActivity extends BaseActivity {
 	protected void onStop() {
 		super.onStop();
 		mViewPager.stopAutoScroll();
-	}
-
-	/**
-	 * 填充ViewPager页面的适配器
-	 * 
-	 * @author Administrator
-	 * 
-	 */
-	private class MyAdapter extends PagerAdapter {
-
-		@Override
-		public int getCount() {
-			return imageResId.length;
-		}
-
-		@Override
-		public Object instantiateItem(View arg0, int arg1) {
-			((ViewPager) arg0).addView(imageViews.get(arg1));
-			return imageViews.get(arg1);
-		}
-
-		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
-			((ViewPager) arg0).removeView((View) arg2);
-		}
-
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
-		}
-
-		@Override
-		public void restoreState(Parcelable arg0, ClassLoader arg1) {
-
-		}
-
-		@Override
-		public Parcelable saveState() {
-			return null;
-		}
-
-		@Override
-		public void startUpdate(View arg0) {
-
-		}
-
-		@Override
-		public void finishUpdate(View arg0) {
-
-		}
 	}
 
 	public void onClick(View v) {
@@ -263,7 +197,6 @@ public class MainActivity extends BaseActivity {
 			case R.id.tab_img_4:
 				Intent i4 = new Intent(this, VideoListActivity.class);
 				startActivity(i4);
-				// finish();
 				break;
 			default:
 				break;
@@ -287,7 +220,7 @@ public class MainActivity extends BaseActivity {
 				startActivity(i4);
 				break;
 			case R.id.btn_ico_5:
-				if (pub_userName == null || pub_userName.equals("")) {
+				if (mPubUserName == null || mPubUserName.equals("")) {
 					initLoginView();
 				} else {
 					Intent spIntent = new Intent(this, CustomerListActivity.class);
@@ -383,7 +316,7 @@ public class MainActivity extends BaseActivity {
 						if (passwordstr.equals(checkPsw)) {
 							Intent spIntent = new Intent(MainActivity.this, CustomerListActivity.class);
 							startActivity(spIntent);
-							pub_userName = usernamestr;
+							mPubUserName = usernamestr;
 							return;
 						} else {
 							strmsg = "帐号或密码不正确";
@@ -395,7 +328,6 @@ public class MainActivity extends BaseActivity {
 				} else {
 					strmsg = "账号或密码不能为空";
 				}
-
 				Toast.makeText(MainActivity.this, strmsg, Toast.LENGTH_LONG).show();
 
 			} catch (Exception e) {
@@ -446,21 +378,32 @@ public class MainActivity extends BaseActivity {
 						handler.sendEmptyMessage(2);
 					}
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 			};
 		}.start();
+	}
+
+	@Override
+	public void onBackPressed() {
+
+		long currentTime = System.currentTimeMillis();
+		if ((currentTime - mTouchTime) >= WAIT_TIME) {
+			Toast.makeText(this, getString(R.string.once_press_quit), Toast.LENGTH_SHORT).show();
+			mTouchTime = currentTime;
+			return;
+		} else {
+			MobclickAgent.onKillProcess(this);
+			finish();
+		}
+		super.onBackPressed();
 	}
 
 }

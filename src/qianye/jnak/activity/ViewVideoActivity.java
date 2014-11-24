@@ -2,7 +2,6 @@ package qianye.jnak.activity;
 
 import qianye.jnak.R;
 import qianye.jnak.common.FCommon;
-import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-public class ViewVideoActivity extends Activity {
+public class ViewVideoActivity extends BaseActivity {
 	VideoView videoView;
 
 	@Override

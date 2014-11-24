@@ -97,7 +97,7 @@ public class CustomerManagerActivity extends BaseActivity {
 			dao.update(cus);
 			msg = "修改成功";
 		} else {
-			cus.setUsername(pub_userName);
+			cus.setUsername(mPubUserName);
 			cus.setCreateon(new Date().toString());
 			dao.Add(cus);
 			msg = "添加成功";

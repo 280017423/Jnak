@@ -15,5 +15,10 @@
     <string name="title_activity_main_activity2">金诺安康</string>
     <string name="title_activity_product">金诺安康</string>
     <string name="title_activity_industry">IndustryActivity</string>
+    <string name="once_press_quit">再按一次退出</string>
+    <string name="umeng_example_home_btn_analytics">统计分析</string>
+    <string name="umeng_example_home_btn_fb">用户反馈</string>
+    <string name="umeng_example_home_btn_update">自动更新</string>
+    <string name="umeng_example_home_btn_plus">社交分享</string>
 
 </resources>
