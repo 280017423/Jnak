@@ -106,6 +106,18 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="qianye.jnak.activity.BaoxianActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="qianye.jnak.activity.FdcIntroduceActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="qianye.jnak.activity.InternetActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="qianye.jnak.activity.WebBrowserActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" >

@@ -94,14 +94,16 @@ public class IndustryActivity extends BaseActivity {
 
 		switch (v.getId()) {
 			case R.id.btn_ico_1:
-				GotoPageList(88);
+				Intent i1 = new Intent(IndustryActivity.this, BaoxianActivity.class);
+				startActivity(i1);
 				break;
 			case R.id.btn_ico_2:
-				Intent i = new Intent(IndustryActivity.this, TravelListActivity.class);
-				startActivity(i);
+				Intent i2 = new Intent(IndustryActivity.this, TravelListActivity.class);
+				startActivity(i2);
 				break;
 			case R.id.btn_ico_3:
-				GotoPageList(81);
+				Intent i3 = new Intent(IndustryActivity.this, InternetActivity.class);
+				startActivity(i3);
 				break;
 			case R.id.btn_ico_4:
 				GotoPageList(80);
@@ -110,7 +112,8 @@ public class IndustryActivity extends BaseActivity {
 				GotoPageList(79);
 				break;
 			case R.id.btn_ico_6:
-				GotoPageList(86);
+				Intent i6 = new Intent(IndustryActivity.this, FdcIntroduceActivity.class);
+				startActivity(i6);
 				break;
 		}
 	}
