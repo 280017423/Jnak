@@ -24,6 +24,7 @@ public class FileUtil {
 	public static final int BUFSIZE = 256;
 	public static final String VIDEO_PATH = "video";
 	public static final String EXCEL_PATH = "excel";
+	public static final String YUANGONG_PATH = "yuangong";
 	public static final String WORD_PATH = "word";
 	public static final int COUNT = 320;
 	private static final String TAG = "FileUtils";
@@ -291,6 +292,21 @@ public class FileUtil {
 		} else {
 			return "";
 		}
+	}
+
+	/*
+	 * Java文件操作 获取不带扩展名的文件名
+	 * 
+	 * Created on: 2011-8-2 Author: blueeagle
+	 */
+	public static String getFileNameNoEx(String filename) {
+		if (!StringUtil.isNullOrEmpty(filename)) {
+			int dot = filename.lastIndexOf('.');
+			if ((dot > -1) && (dot < (filename.length()))) {
+				return filename.substring(0, dot);
+			}
+		}
+		return filename;
 	}
 
 }

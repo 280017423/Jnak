@@ -207,13 +207,16 @@ public class MainActivity extends BaseActivity {
 
 		switch (v.getId()) {
 			case R.id.btn_ico_1:
-				GotoViewPage(117);
+				Intent i1 = new Intent(this, CompanyIntroduceActivity.class);
+				startActivity(i1);
 				break;
 			case R.id.btn_ico_2:
-				GotoViewPage(164);
+				Intent i2 = new Intent(this, FounderIntroduceActivity.class);
+				startActivity(i2);
 				break;
 			case R.id.btn_ico_3:
-				GotoViewPage(168);
+				Intent i3 = new Intent(this, ImportantThingActivity.class);
+				startActivity(i3);
 				break;
 			case R.id.btn_ico_4:
 				Intent i4 = new Intent(this, IndustryActivity.class);
@@ -231,11 +234,12 @@ public class MainActivity extends BaseActivity {
 				Toast.makeText(MainActivity.this, "努力开发中...", Toast.LENGTH_LONG).show();
 				break;
 			case R.id.btn_ico_7:
-				Intent i = new Intent(MainActivity.this, FileListActivity.class);
-				startActivity(i);
+				Intent i7 = new Intent(MainActivity.this, ZhanyeActivity.class);
+				startActivity(i7);
 				break;
 			case R.id.btn_ico_8:
-				Toast.makeText(MainActivity.this, "努力开发中...", Toast.LENGTH_LONG).show();
+				Intent i8 = new Intent(MainActivity.this, YuangongActivity.class);
+				startActivity(i8);
 				break;
 			case R.id.btn_ico_9:
 				Intent txllIntent = new Intent(this, VideoListActivity.class);
