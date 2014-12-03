@@ -9,7 +9,6 @@ import qianye.jnak.dao.ArticleDao;
 import qianye.jnak.dao.ListViewAdapter;
 import qianye.jnak.model.Article;
 import qianye.jnak.widget.LoadingUpView;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;

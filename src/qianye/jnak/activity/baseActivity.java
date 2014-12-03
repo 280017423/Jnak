@@ -22,8 +22,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * 基础活动场景
  * 
- * @author panxianyi
- * 
+ * @author zou.sq
  */
 public class BaseActivity extends Activity {
 	public static List<Activity> mActivityList = new ArrayList<Activity>();

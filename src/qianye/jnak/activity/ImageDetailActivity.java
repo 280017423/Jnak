@@ -15,8 +15,6 @@ import android.widget.TextView;
 
 public class ImageDetailActivity extends BaseActivity {
 	private static final int SCROLL_DURATION = 1;
-	private static final int DELAY_TIME = 1000;
-	private static final String TAG = "MusicDetailActivity";
 	private ArrayList<File> mImgsList;
 	private int mPosition;
 	private AutoScrollViewPager mViewPager;
