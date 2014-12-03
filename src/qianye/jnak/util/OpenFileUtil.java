@@ -1,6 +1,7 @@
 package qianye.jnak.util;
 
 import java.io.File;
+import java.util.Locale;
 
 import qianye.jnak.R;
 import android.content.Context;
@@ -243,7 +244,7 @@ public class OpenFileUtil {
 			return false;
 		}
 		for (String aEnd : fileEndings) {
-			if (file.getName().endsWith(aEnd)) {
+			if (file.getName().toLowerCase(Locale.getDefault()).endsWith(aEnd)) {
 				return true;
 			}
 		}
