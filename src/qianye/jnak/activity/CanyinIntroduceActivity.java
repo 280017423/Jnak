@@ -7,12 +7,12 @@ import android.util.DisplayMetrics;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 
-public class CompanyIntroduceActivity extends BaseActivity {
+public class CanyinIntroduceActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_company_introduce);
+		setContentView(R.layout.activity_canyin_introduce);
 		initVariables();
 		initView();
 	}
@@ -21,13 +21,13 @@ public class CompanyIntroduceActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		ImageView iv = (ImageView) findViewById(R.id.iv_introduce_bg);
+		ImageView iv = (ImageView) findViewById(R.id.iv_canyin_bg);
 		LayoutParams lp = iv.getLayoutParams();
 		DisplayMetrics metric = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metric);
 		int WIDTH = metric.widthPixels;
 		lp.width = WIDTH;
-		lp.height = WIDTH * 279 / 420;
+		lp.height = WIDTH * 550 / 640;
 		iv.setLayoutParams(lp);
 		new CountDownTimer(200, 200) {
 			@Override

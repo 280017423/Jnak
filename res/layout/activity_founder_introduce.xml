@@ -12,6 +12,7 @@
     </RelativeLayout>
 
     <ScrollView
+        android:id="@+id/sv_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
@@ -23,7 +24,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:gravity="left"
-            android:text="@string/important_thing_content"
+            android:text="@string/founder_introduce_content"
             android:textColor="@color/black"
             android:textSize="20sp" />
     </ScrollView>

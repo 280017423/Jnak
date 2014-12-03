@@ -98,7 +98,7 @@ public class IndustryActivity extends BaseActivity {
 				startActivity(i1);
 				break;
 			case R.id.btn_ico_2:
-				Intent i2 = new Intent(IndustryActivity.this, TravelListActivity.class);
+				Intent i2 = new Intent(IndustryActivity.this, LvyouActivity.class);
 				startActivity(i2);
 				break;
 			case R.id.btn_ico_3:
@@ -106,10 +106,12 @@ public class IndustryActivity extends BaseActivity {
 				startActivity(i3);
 				break;
 			case R.id.btn_ico_4:
-				GotoPageList(80);
+				Intent i4 = new Intent(IndustryActivity.this, CanyinIntroduceActivity.class);
+				startActivity(i4);
 				break;
 			case R.id.btn_ico_5:
-				GotoPageList(79);
+				Intent i5 = new Intent(IndustryActivity.this, PeixunActivity.class);
+				startActivity(i5);
 				break;
 			case R.id.btn_ico_6:
 				Intent i6 = new Intent(IndustryActivity.this, FdcIntroduceActivity.class);

@@ -8,27 +8,29 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import qianye.jnak.R;
-import qianye.jnak.adapter.FolderAdapter;
+import qianye.jnak.adapter.YuangongAdapter;
+import qianye.jnak.util.ConstantSet;
 import qianye.jnak.util.FileUtil;
 import qianye.jnak.util.OpenFileUtil;
+import qianye.jnak.widget.MGridView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
-public class TravelListActivity extends BaseActivity implements OnItemClickListener {
-	private ListView mGvRootFolder;
+public class LvyouActivity extends BaseActivity implements OnItemClickListener {
+	private MGridView mGvRootFolder;
 	private ArrayList<File> mFileList;
-	private FolderAdapter mFilAdapter;
+	private YuangongAdapter mFilAdapter;
 	private File mResDir;
 	private File mCurrentFile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_video_list);
+		setContentView(R.layout.activity_lvyou);
 		initVariables();
 		initView();
 		setListener();
@@ -37,14 +39,25 @@ public class TravelListActivity extends BaseActivity implements OnItemClickListe
 
 	private void initVariables() {
 		mFileList = new ArrayList<File>();
-		mFilAdapter = new FolderAdapter(this, mFileList);
-		mResDir = FileUtil.getResDir(this, FileUtil.WORD_PATH);
+
+		mResDir = FileUtil.getResDir(this, FileUtil.LVYOU_PATH);
 		mCurrentFile = mResDir;
 	}
 
 	private void initView() {
-		mGvRootFolder = (ListView) findViewById(R.id.lv_newslist);
+		mGvRootFolder = (MGridView) findViewById(R.id.gv_newslist);
+		mFilAdapter = new YuangongAdapter(this, mFileList, mGvRootFolder);
 		mGvRootFolder.setAdapter(mFilAdapter);
+		new CountDownTimer(200, 200) {
+			@Override
+			public void onTick(long millisUntilFinished) {
+			}
+
+			@Override
+			public void onFinish() {
+				findViewById(R.id.sv_layout).scrollTo(0, 0);
+			}
+		}.start();
 	}
 
 	private void setListener() {
@@ -59,7 +72,7 @@ public class TravelListActivity extends BaseActivity implements OnItemClickListe
 
 			@Override
 			public boolean accept(File file) {
-				return OpenFileUtil.FILE_ENDING_WORD == OpenFileUtil.getFileEnding(file, TravelListActivity.this);
+				return OpenFileUtil.FILE_ENDING_IMAGE == OpenFileUtil.getFileEnding(file, LvyouActivity.this);
 			}
 		});
 		if (files == null) {
@@ -88,10 +101,21 @@ public class TravelListActivity extends BaseActivity implements OnItemClickListe
 			return;
 		}
 		if (tempFile.isFile()) {
-			Intent intent = OpenFileUtil.openFile(tempFile, this);
-			if (null != intent) {
-				startActivity(intent);
+			Intent intent = new Intent(LvyouActivity.this, ImageDetailActivity.class);
+			ArrayList<File> imageFileList = new ArrayList<File>();
+			int size = mFileList.size();
+			for (int i = 0; i < size; i++) {
+				File file = mFileList.get(i);
+				if (!file.isDirectory()
+						&& OpenFileUtil.FILE_ENDING_IMAGE == OpenFileUtil.getFileEnding(file, LvyouActivity.this)) {
+					imageFileList.add(file);
+					if (tempFile.getAbsolutePath().equals(file.getAbsolutePath())) {
+						intent.putExtra(ConstantSet.KEY_INTENT_IMG_POSITION, imageFileList.size() - 1);
+					}
+				}
 			}
+			intent.putExtra(ConstantSet.KEY_INTENT_IMGS_LIST, imageFileList);
+			startActivity(intent);
 		}
 
 	}

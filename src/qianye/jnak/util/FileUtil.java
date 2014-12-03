@@ -23,9 +23,11 @@ import android.util.Log;
 public class FileUtil {
 	public static final int BUFSIZE = 256;
 	public static final String VIDEO_PATH = "video";
-	public static final String EXCEL_PATH = "excel";
+	public static final String ZHANYE_PATH = "excel";
 	public static final String YUANGONG_PATH = "yuangong";
+	public static final String PEIXUN_PATH = "peixun";
 	public static final String WORD_PATH = "word";
+	public static final String LVYOU_PATH = "lvyou";
 	public static final int COUNT = 320;
 	private static final String TAG = "FileUtils";
 	private static final long SIZE_KB = 1024;

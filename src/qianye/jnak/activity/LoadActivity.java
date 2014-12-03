@@ -1,5 +1,8 @@
 package qianye.jnak.activity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import qianye.jnak.R;
 import qianye.jnak.common.FCommon;
 import qianye.jnak.common.NetGetData;
@@ -18,13 +21,25 @@ import android.util.Log;
 public class LoadActivity extends BaseActivity {
 
 	private LoadingUpView mLoadingUpView;
+	private static final int DISPLAY_TIME = 3000;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.loading);
 		mLoadingUpView = new LoadingUpView(this);
-		getData();
+		// getData();
+
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				Intent txllIntent = new Intent(LoadActivity.this, MainActivity.class);
+				startActivity(txllIntent);
+				finish();
+			}
+		}, DISPLAY_TIME);
+
 	}
 
 	void getData() {

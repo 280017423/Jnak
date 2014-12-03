@@ -2,6 +2,7 @@ package qianye.jnak.activity;
 
 import qianye.jnak.R;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
@@ -28,6 +29,16 @@ public class FdcIntroduceActivity extends BaseActivity {
 		lp.width = WIDTH;
 		lp.height = WIDTH * 278 / 409;
 		iv.setLayoutParams(lp);
+		new CountDownTimer(200, 200) {
+			@Override
+			public void onTick(long millisUntilFinished) {
+			}
+
+			@Override
+			public void onFinish() {
+				findViewById(R.id.sv_layout).scrollTo(0, 0);
+			}
+		}.start();
 	}
 
 }
