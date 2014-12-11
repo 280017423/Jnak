@@ -19,7 +19,6 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 
 public class PeixunActivity extends BaseActivity implements OnItemClickListener {
 	private MGridView mGvRootFolder;
